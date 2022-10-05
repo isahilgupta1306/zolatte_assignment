@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "1063268305060",
+    "project_id": "zolatte-assignment-7a13a",
+    "storage_bucket": "zolatte-assignment-7a13a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063268305060:android:5b79c5cdb1a3cf33a97e31",
+        "android_client_info": {
+          "package_name": "com.example.zolatte_assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063268305060-ik8rpqourq5fkhb7l5ota921a1s5fhih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zolatte_assignment",
+            "certificate_hash": "e8f826e6715ecfd656904ca06c667410daa79579"
+          }
+        },
+        {
+          "client_id": "1063268305060-7u9peoq5ig9au27hr13d7n9d0eohvi2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBYFPG6rPCb38ZqklLAgJQznQLepQ4fbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063268305060-7u9peoq5ig9au27hr13d7n9d0eohvi2c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1063268305060-rdrehn20l4vr234tcf7putnc83i6chrb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zolatteAssignment"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063268305060:android:44b51ed6044cd16ba97e31",
+        "android_client_info": {
+          "package_name": "com.zolatte.assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063268305060-g3l9f2v18j4vqcdeqa6sivergv3p7laq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zolatte.assignment",
+            "certificate_hash": "e8f826e6715ecfd656904ca06c667410daa79579"
+          }
+        },
+        {
+          "client_id": "1063268305060-7u9peoq5ig9au27hr13d7n9d0eohvi2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBYFPG6rPCb38ZqklLAgJQznQLepQ4fbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063268305060-7u9peoq5ig9au27hr13d7n9d0eohvi2c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1063268305060-rdrehn20l4vr234tcf7putnc83i6chrb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zolatteAssignment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
