@@ -1,11 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:zolatte_assignment/providers/firebase_operations.dart';
-import 'package:zolatte_assignment/utils/themes/named_colors.dart';
-
 import '../utils/themes/app_text_styles.dart';
 
 class Screen2 extends StatelessWidget {
@@ -14,6 +11,7 @@ class Screen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -24,18 +22,37 @@ class Screen2 extends StatelessWidget {
       ),
       // backgroundColor: NamedColors.shinyPurple,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/delete_illustration.svg',
-              fit: BoxFit.fitHeight,
-              height: deviceSize.width * 0.35,
-              width: deviceSize.width * 0.45,
-            ),
-            customButton1(context, deviceSize, "Delete Your Data")
-          ],
+        child: Consumer<FirebaseOperationsProvider>(
+          builder: (context, value, child) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/delete_illustration.svg',
+                  fit: BoxFit.fitHeight,
+                  height: deviceSize.width * 0.35,
+                  width: deviceSize.width * 0.45,
+                ),
+                customButton1(
+                    context, deviceSize, "Delete Your Data", user.uid),
+                const SizedBox(
+                  height: 15,
+                ),
+                !value.isDeleted
+                    ? const Text(
+                        "Clicking on this button will result in\n removal of your data",
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.cautionHeadingTextStyle,
+                      )
+                    : const Text(
+                        "Your Data is removed , Navigate to \nHomeScreen for adding Data",
+                        style: AppTextStyles.cautionHeadingTextStyle,
+                        textAlign: TextAlign.center,
+                      ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -43,10 +60,7 @@ class Screen2 extends StatelessWidget {
 }
 
 Widget customButton1(
-  BuildContext context,
-  Size deviceSize,
-  String buttonTitle,
-) {
+    BuildContext context, Size deviceSize, String buttonTitle, String id) {
   return SizedBox(
     width: deviceSize.width * 0.87,
     height: deviceSize.width * 0.14,
@@ -59,13 +73,7 @@ Widget customButton1(
           ),
         ),
         onPressed: () {
-          // have a check for deleting pre-deleted object
-          // String docId =
-          //     Provider.of<FirebaseOperationsProvider>(context, listen: false)
-          //         .documentId;
-          // print(docId + "  -< from screen2");
-          // Provider.of<FirebaseOperationsProvider>(context, listen: false)
-          //     .deleteData(docId);
+          deleteData(context, id);
         },
         icon: const Icon(
           Icons.delete_outline,
@@ -79,10 +87,12 @@ Widget customButton1(
   );
 }
 
-void deleteData(BuildContext context) {
-  String docId = Provider.of<FirebaseOperationsProvider>(context, listen: false)
-      .documentId;
-  print(docId + "  -< from screen2");
+void deleteData(BuildContext context, String docId) {
+  print(docId + " <-- from screen2");
   Provider.of<FirebaseOperationsProvider>(context, listen: false)
       .deleteData(docId);
+  Navigator.of(context).pop();
+  Navigator.of(context).pop();
+  ScaffoldMessenger.of(context)
+      .showSnackBar(const SnackBar(content: Text('Data Deleted Successfully')));
 }

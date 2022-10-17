@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zolatte_assignment/services/user_model.dart';
 
 class FirebaseOperationsProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
-  // GoogleSignInAccount? _googleUser;
+  User user = FirebaseAuth.instance.currentUser!;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference userCollection =
@@ -15,23 +16,21 @@ class FirebaseOperationsProvider extends ChangeNotifier {
   bool isDeleted = false;
   bool isSubmitted = false;
 
+  //    Method responsible for adding the User's Data to Firebase
   Future<void> addUser(String fullName, String emailAddress, String phoneNum,
       String age, String birthDate, String streetAddress) async {
-    //    Method responsible for adding the User's Data to Firebase
     userModel = UserModel(
         fullName, phoneNum, age, streetAddress, birthDate, emailAddress);
-
+    user = FirebaseAuth.instance.currentUser!;
+    documentId = user.uid;
     if (!isSubmitted) {
-      var docRef = await userCollection.add(userModel.toMap()).then((value) {
-        print("User Added");
-        documentId = value.id;
-        print(documentId + " <- document id"); //stored the coument Id
-      }).catchError((error) => print("Failed to add user: $error"));
+      await userCollection.doc(documentId).set(userModel.toMap());
       isSubmitted = true;
     } else {
       updateUserData(
           fullName, emailAddress, phoneNum, age, birthDate, streetAddress);
     }
+    isDeleted = false;
   }
 
   Future<void> updateUserData(
@@ -46,11 +45,12 @@ class FirebaseOperationsProvider extends ChangeNotifier {
     await userCollection.doc(documentId).update(userModel.toMap());
   }
 
-  Future<DocumentSnapshot> getUserData(dynamic userId) async {
-    DocumentSnapshot documentSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  Future<Map<String, dynamic>> getUserData(String userId) async {
+    var data;
+    await FirebaseFirestore.instance.collection('users').doc(userId).get().then(
+        (DocumentSnapshot doc) => data = doc.data() as Map<String, dynamic>);
 
-    return documentSnapshot;
+    return data;
   }
 
   Future<void> deleteData(String userId) async {
@@ -59,6 +59,7 @@ class FirebaseOperationsProvider extends ChangeNotifier {
       isDeleted = true;
       print("Data deleted");
     }
+    isSubmitted = false;
     notifyListeners();
   }
 }
